@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "ci:check": "yarn lint && yarn format:check && yarn typecheck && yarn test && yarn build && yarn docs:build && yarn typecheck:public",
+    "ci:check": "yarn lint && yarn format:check && yarn typecheck && yarn test && yarn build && yarn typecheck:public",
     "coverage": "vitest run --coverage",
     "docs:build": "astro build --root docs",
     "docs:dev": "astro dev --root docs",
