@@ -29,7 +29,7 @@ yarn install
 | `yarn docs:dev`         | Starts the Starlight docs site locally                        |
 | `yarn docs:build`       | Builds the docs site                                          |
 | `yarn typecheck:public` | Checks the generated public declarations                      |
-| `yarn ci:check`         | Runs the full local quality gate                              |
+| `yarn ci:check`         | Runs the SDK quality gate used across the Node support matrix |
 
 ## What a good pull request includes
 

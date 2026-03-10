@@ -33,6 +33,9 @@ jobs:
       - name: Run quality gates
         run: yarn ci:check
 
+      - name: Build docs
+        run: yarn docs:build
+
       - name: Publish to npm
         run: npm publish --access public --provenance
 
