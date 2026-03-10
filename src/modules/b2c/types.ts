@@ -29,3 +29,8 @@ export interface B2CSendResponse {
   ResponseCode: string;
   ResponseDescription: string;
 }
+
+/** Public B2C module surface exposed on `Mpesa`. */
+export interface B2CModule {
+  send(input: B2CSendInput): Promise<B2CSendResponse>;
+}

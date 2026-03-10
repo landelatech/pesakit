@@ -17,7 +17,7 @@ export interface C2BRegisterUrlsInput {
 
 export interface C2BRegisterUrlsResponse {
   ConversationID: string;
-  OriginatorCoversationID: string;
+  OriginatorConversationID: string;
   ResponseDescription: string;
 }
 
@@ -38,4 +38,10 @@ export interface C2BSimulateResponse {
   ConversationID: string;
   OriginatorConversationID: string;
   ResponseDescription: string;
+}
+
+/** Public C2B module surface exposed on `Mpesa`. */
+export interface C2BModule {
+  registerUrls(input: C2BRegisterUrlsInput): Promise<C2BRegisterUrlsResponse>;
+  simulate(input: C2BSimulateInput): Promise<C2BSimulateResponse>;
 }

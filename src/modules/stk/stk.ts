@@ -2,97 +2,102 @@
  * STK Push (Lipa Na M-Pesa Online) and STK Query.
  */
 
-import {HttpClient} from "../../http";
-import {MpesaValidationError} from "../../errors";
-import {requireNonEmpty, requirePositiveAmount, validatePhone, validateUrl} from "../../utils/validation";
-import {getStkPassword, getTimestamp} from "../../utils/stk";
-import type {StkPushInput, StkPushResponse, StkPushResult, StkQueryInput, StkQueryResponse} from "./types";
+import type { HttpClient } from "../../http";
+import { MpesaValidationError } from "../../errors";
+import {
+  normalizePhone,
+  requireNonEmpty,
+  requirePositiveAmount,
+  validatePhone,
+  validateUrl,
+} from "../../utils/validation";
+import { getStkPassword, getTimestamp } from "../../utils/stk";
+import type {
+  StkModule,
+  StkPushInput,
+  StkPushResponse,
+  StkPushResult,
+  StkQueryInput,
+  StkQueryResponse,
+} from "./types";
 
 export interface StkModuleConfig {
-    http: HttpClient;
-    shortCode: string;
-    passKey: string;
+  http: HttpClient;
+  shortCode: string;
+  passKey: string;
 }
 
-export function createStkModule(config: StkModuleConfig) {
-    const {http, shortCode, passKey} = config;
+export function createStkModule(config: StkModuleConfig): StkModule {
+  const { http, shortCode, passKey } = config;
 
-    return {
-        /**
-         * Initiate STK Push (Lipa Na M-Pesa Online).
-         * Sends a prompt to the customer's phone to enter M-Pesa PIN.
-         * @returns CheckoutRequestID, timestamp, etc. – use checkoutRequestId and timestamp with stkQuery() to poll status
-         */
-        async push(input: StkPushInput): Promise<StkPushResult> {
-            requireNonEmpty(input.phoneNumber, "phoneNumber");
-            requirePositiveAmount(input.amount, "amount");
-            validateUrl(input.callbackUrl, "callbackUrl");
-            requireNonEmpty(input.accountReference, "accountReference");
-            requireNonEmpty(input.transactionDesc, "transactionDesc");
-            validatePhone(input.phoneNumber);
+  return {
+    /**
+     * Initiate STK Push (Lipa Na M-Pesa Online).
+     * Sends a prompt to the customer's phone to enter M-Pesa PIN.
+     * @returns CheckoutRequestID, timestamp, etc. – use checkoutRequestId with stkQuery() to poll status
+     */
+    async push(input: StkPushInput): Promise<StkPushResult> {
+      requireNonEmpty(input.phoneNumber, "phoneNumber");
+      requirePositiveAmount(input.amount, "amount");
+      validateUrl(input.callbackUrl, "callbackUrl");
+      requireNonEmpty(input.accountReference, "accountReference");
+      requireNonEmpty(input.transactionDesc, "transactionDesc");
+      validatePhone(input.phoneNumber);
 
-            const short = input.shortCode ?? shortCode;
-            if (!short || !passKey) {
-                throw new MpesaValidationError(
-                    "STK Push requires shortCode and passKey in config or input"
-                );
-            }
+      const short = input.shortCode ?? shortCode;
+      if (!short || !passKey) {
+        throw new MpesaValidationError(
+          "STK Push requires shortCode and passKey in config or input"
+        );
+      }
 
-            const timestamp = getTimestamp();
-            const password = getStkPassword(short, passKey, timestamp);
-            const phone = input.phoneNumber.replace(/\D/g, "");
-            const normalizedPhone =
-                phone.length === 9 && phone.startsWith("7")
-                    ? `254${phone}`
-                    : phone.length === 10 && phone.startsWith("0")
-                        ? `254${phone.slice(1)}`
-                        : phone.length === 12
-                            ? phone
-                            : input.phoneNumber;
+      const timestamp = getTimestamp();
+      const password = getStkPassword(short, passKey, timestamp);
+      const normalizedPhone = normalizePhone(input.phoneNumber);
 
-            const transactionType = input.transactionType ?? "CustomerPayBillOnline";
+      const transactionType = input.transactionType ?? "CustomerPayBillOnline";
 
-            const body = {
-                BusinessShortCode: short,
-                Password: password,
-                Timestamp: timestamp,
-                TransactionType: transactionType,
-                Amount: Math.round(input.amount),
-                PartyA: normalizedPhone,
-                PartyB: short,
-                PhoneNumber: normalizedPhone,
-                CallBackURL: input.callbackUrl,
-                AccountReference: input.accountReference,
-                TransactionDesc: input.transactionDesc,
-            };
+      const body = {
+        BusinessShortCode: short,
+        Password: password,
+        Timestamp: timestamp,
+        TransactionType: transactionType,
+        Amount: Math.round(input.amount),
+        PartyA: normalizedPhone,
+        PartyB: short,
+        PhoneNumber: normalizedPhone,
+        CallBackURL: input.callbackUrl,
+        AccountReference: input.accountReference,
+        TransactionDesc: input.transactionDesc,
+      };
 
-            const response = await http.post<StkPushResponse>("/mpesa/stkpush/v1/processrequest", body);
-            return {...response, timestamp};
-        },
+      const response = await http.post<StkPushResponse>("/mpesa/stkpush/v1/processrequest", body);
+      return { ...response, timestamp };
+    },
 
-        /**
-         * Query status of an STK Push using CheckoutRequestID.
-         * Pass the timestamp from stkPush() so the request password matches the original push.
-         */
-        async query(input: StkQueryInput): Promise<StkQueryResponse> {
-            requireNonEmpty(input.checkoutRequestId, "checkoutRequestId");
+    /**
+     * Query status of an STK Push using CheckoutRequestID.
+     * A fresh timestamp is generated by default; pass `timestamp` only when you need a deterministic query payload.
+     */
+    async query(input: StkQueryInput): Promise<StkQueryResponse> {
+      requireNonEmpty(input.checkoutRequestId, "checkoutRequestId");
 
-            const short = input.shortCode ?? shortCode;
-            if (!short || !passKey) {
-                throw new MpesaValidationError("STK Query requires shortCode and passKey in config");
-            }
+      const short = input.shortCode ?? shortCode;
+      if (!short || !passKey) {
+        throw new MpesaValidationError("STK Query requires shortCode and passKey in config");
+      }
 
-            const timestamp = input.timestamp ?? getTimestamp();
-            const password = getStkPassword(short, passKey, timestamp);
+      const timestamp = input.timestamp ?? getTimestamp();
+      const password = getStkPassword(short, passKey, timestamp);
 
-            const body = {
-                BusinessShortCode: short,
-                Password: password,
-                Timestamp: timestamp,
-                CheckoutRequestID: input.checkoutRequestId,
-            };
+      const body = {
+        BusinessShortCode: short,
+        Password: password,
+        Timestamp: timestamp,
+        CheckoutRequestID: input.checkoutRequestId,
+      };
 
-            return http.post<StkQueryResponse>("/mpesa/stkpushquery/v1/query", body);
-        },
-    };
+      return http.post<StkQueryResponse>("/mpesa/stkpushquery/v1/query", body);
+    },
+  };
 }

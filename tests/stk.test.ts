@@ -10,8 +10,7 @@ describe("Mpesa STK Push", () => {
   const mockTokenFetch = () =>
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
-      text: () =>
-        Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+      text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
     } as Response);
 
   const mockStkPushSuccess = () =>
@@ -111,8 +110,7 @@ describe("Mpesa STK Query", () => {
     vi.mocked(fetch)
       .mockResolvedValueOnce({
         ok: true,
-        text: () =>
-          Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+        text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
       } as Response)
       .mockResolvedValueOnce({
         ok: true,
@@ -146,8 +144,7 @@ describe("Mpesa STK Query", () => {
     vi.mocked(fetch)
       .mockResolvedValueOnce({
         ok: true,
-        text: () =>
-          Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+        text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
       } as Response)
       .mockResolvedValueOnce({
         ok: true,

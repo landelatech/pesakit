@@ -18,6 +18,8 @@ export const MPESA_ENV_KEYS = {
   securityCredential: "MPESA_SECURITY_CREDENTIAL",
 } as const;
 
+const VALID_ENVIRONMENTS: Environment[] = ["sandbox", "production"];
+
 export function getBaseUrl(environment: Environment): string {
   return environment === "sandbox"
     ? "https://sandbox.safaricom.co.ke"
@@ -57,6 +59,21 @@ function getEnv(key: string): string {
   return (process.env[key] ?? "").trim();
 }
 
+function resolveEnvironment(value: string | undefined): Environment {
+  if (!value) {
+    return "sandbox";
+  }
+
+  const normalized = value.toLowerCase();
+  if (VALID_ENVIRONMENTS.includes(normalized as Environment)) {
+    return normalized as Environment;
+  }
+
+  throw new MpesaValidationError(
+    `Invalid environment: expected one of ${VALID_ENVIRONMENTS.join(", ")}, got: ${value}`
+  );
+}
+
 /**
  * Resolves config by merging constructor options with environment variables.
  * Explicit config values take precedence; missing values are read from env.
@@ -65,9 +82,7 @@ function getEnv(key: string): string {
 export function resolveConfig(config: MpesaConfig): ResolvedMpesaConfig {
   const consumerKey = config.consumerKey ?? getEnv(MPESA_ENV_KEYS.consumerKey);
   const consumerSecret = config.consumerSecret ?? getEnv(MPESA_ENV_KEYS.consumerSecret);
-  const envRaw = (config.environment ?? getEnv(MPESA_ENV_KEYS.environment)).toLowerCase();
-  const environment: Environment =
-    envRaw === "production" ? "production" : "sandbox";
+  const environment = resolveEnvironment(config.environment ?? getEnv(MPESA_ENV_KEYS.environment));
 
   if (!consumerKey || !consumerSecret) {
     throw new MpesaValidationError(

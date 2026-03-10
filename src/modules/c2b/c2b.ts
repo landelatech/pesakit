@@ -2,10 +2,17 @@
  * C2B: Register URLs and simulate (sandbox).
  */
 
-import { HttpClient } from "../../http";
+import type { Environment } from "../../config";
 import { MpesaValidationError } from "../../errors";
-import { validatePhone, validateUrl, requirePositiveAmount, requireNonEmpty } from "../../utils/validation";
+import type { HttpClient } from "../../http";
+import {
+  normalizePhone,
+  requirePositiveAmount,
+  validatePhone,
+  validateUrl,
+} from "../../utils/validation";
 import type {
+  C2BModule,
   C2BRegisterUrlsInput,
   C2BRegisterUrlsResponse,
   C2BSimulateInput,
@@ -15,10 +22,22 @@ import type {
 export interface C2BModuleConfig {
   http: HttpClient;
   shortCode: string;
+  environment: Environment;
 }
 
-export function createC2BModule(config: C2BModuleConfig) {
-  const { http, shortCode } = config;
+function normalizeRegisterUrlsResponse(
+  response: C2BRegisterUrlsResponse & { OriginatorCoversationID?: string }
+): C2BRegisterUrlsResponse {
+  return {
+    ConversationID: response.ConversationID,
+    OriginatorConversationID:
+      response.OriginatorConversationID ?? response.OriginatorCoversationID ?? "",
+    ResponseDescription: response.ResponseDescription,
+  };
+}
+
+export function createC2BModule(config: C2BModuleConfig): C2BModule {
+  const { http, shortCode, environment } = config;
 
   return {
     /**
@@ -41,7 +60,11 @@ export function createC2BModule(config: C2BModuleConfig) {
         ValidationURL: input.validationUrl,
       };
 
-      return http.post<C2BRegisterUrlsResponse>("/mpesa/c2b/v1/registerurl", body);
+      const response = await http.post<
+        C2BRegisterUrlsResponse & { OriginatorCoversationID?: string }
+      >("/mpesa/c2b/v1/registerurl", body);
+
+      return normalizeRegisterUrlsResponse(response);
     },
 
     /**
@@ -50,25 +73,17 @@ export function createC2BModule(config: C2BModuleConfig) {
      */
     async simulate(input: C2BSimulateInput): Promise<C2BSimulateResponse> {
       requirePositiveAmount(input.amount, "amount");
-      requireNonEmpty(input.msisdn, "msisdn");
       validatePhone(input.msisdn);
 
       const short = input.shortCode ?? shortCode;
       if (!short) {
         throw new MpesaValidationError("C2B simulate requires shortCode in config");
       }
+      if (environment === "production") {
+        throw new MpesaValidationError("C2B simulate is only available in the sandbox environment");
+      }
 
-      const msisdn = input.msisdn.replace(/\D/g, "");
-      const normalized =
-        msisdn.length === 9 && msisdn.startsWith("7")
-          ? `254${msisdn}`
-          : msisdn.length === 10 && msisdn.startsWith("0")
-            ? `254${msisdn.slice(1)}`
-            : msisdn.length === 12 && msisdn.startsWith("254")
-              ? msisdn
-              : msisdn.length === 12
-                ? msisdn
-                : `254${msisdn}`;
+      const normalized = normalizePhone(input.msisdn);
 
       const body: Record<string, string | number> = {
         ShortCode: short,

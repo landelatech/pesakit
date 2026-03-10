@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --sl-font: "Public Sans";
+  --sl-font-mono: "IBM Plex Mono";
+  --brand-ring: hsla(144, 74%, 36%, 0.22);
+}
+
+:root,
+::backdrop {
+  --sl-color-accent-low: hsl(148, 54%, 17%);
+  --sl-color-accent: hsl(148, 74%, 37%);
+  --sl-color-accent-high: hsl(149, 84%, 80%);
+}
+
+:root[data-theme="light"],
+[data-theme="light"] ::backdrop {
+  --sl-color-white: hsl(154, 33%, 13%);
+  --sl-color-gray-1: hsl(151, 22%, 18%);
+  --sl-color-gray-2: hsl(151, 15%, 26%);
+  --sl-color-gray-3: hsl(151, 12%, 38%);
+  --sl-color-gray-4: hsl(151, 10%, 53%);
+  --sl-color-gray-5: hsl(42, 24%, 83%);
+  --sl-color-gray-6: hsl(42, 35%, 93%);
+  --sl-color-gray-7: hsl(48, 45%, 97%);
+  --sl-color-black: hsl(42, 52%, 99%);
+  --sl-color-accent-low: hsl(145, 61%, 88%);
+  --sl-color-accent: hsl(148, 76%, 31%);
+  --sl-color-accent-high: hsl(152, 73%, 19%);
+  --sl-color-text-accent: var(--sl-color-accent-high);
+  --sl-color-bg-nav: hsla(48, 45%, 97%, 0.88);
+  --sl-color-bg-sidebar: hsl(45, 43%, 98%);
+  --sl-color-bg-inline-code: hsl(45, 35%, 93%);
+  --sl-color-bg-accent: hsl(148, 74%, 37%);
+  --sl-color-hairline: hsl(42, 21%, 88%);
+  --sl-color-hairline-light: hsl(42, 30%, 92%);
+}
+
+:root[data-theme="dark"],
+[data-theme="dark"] ::backdrop {
+  --sl-color-accent-low: hsl(148, 46%, 18%);
+  --sl-color-accent: hsl(148, 68%, 46%);
+  --sl-color-accent-high: hsl(149, 78%, 83%);
+  --sl-color-gray-1: hsl(44, 32%, 95%);
+  --sl-color-gray-2: hsl(43, 16%, 78%);
+  --sl-color-gray-3: hsl(42, 10%, 62%);
+  --sl-color-gray-4: hsl(152, 7%, 46%);
+  --sl-color-gray-5: hsl(153, 12%, 22%);
+  --sl-color-gray-6: hsl(154, 18%, 14%);
+  --sl-color-black: hsl(156, 39%, 9%);
+  --sl-color-bg-nav: hsla(156, 39%, 9%, 0.82);
+  --sl-color-bg-sidebar: hsl(156, 32%, 11%);
+  --sl-color-bg-inline-code: hsl(153, 13%, 19%);
+  --sl-color-hairline: hsl(154, 19%, 17%);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, hsla(148, 74%, 37%, 0.16), transparent 36%),
+    radial-gradient(circle at top right, hsla(39, 78%, 57%, 0.16), transparent 28%),
+    linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.02)), var(--sl-color-bg);
+}
+
+[data-theme="light"] body {
+  background:
+    radial-gradient(circle at top left, hsla(148, 74%, 37%, 0.09), transparent 32%),
+    radial-gradient(circle at top right, hsla(39, 78%, 57%, 0.12), transparent 26%),
+    linear-gradient(180deg, hsla(48, 40%, 100%, 0.95), hsl(48, 45%, 98%));
+}
+
+header {
+  backdrop-filter: blur(18px);
+}
+
+.header {
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -0.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sl-color-hairline), transparent);
+}
+
+.hero {
+  position: relative;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 2rem;
+  padding: clamp(1.5rem, 2vw, 2rem);
+  background:
+    linear-gradient(140deg, hsla(148, 74%, 37%, 0.18), transparent 55%),
+    linear-gradient(220deg, hsla(39, 78%, 57%, 0.16), transparent 45%),
+    color-mix(in srgb, var(--sl-color-bg-sidebar) 86%, transparent);
+  box-shadow: 0 28px 56px -36px rgba(6, 41, 27, 0.8);
+  overflow: clip;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 1rem auto auto 1rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 999px;
+  border: 1px solid hsla(39, 78%, 57%, 0.35);
+  opacity: 0.7;
+}
+
+.hero h1 {
+  letter-spacing: -0.04em;
+  max-width: 12ch;
+}
+
+.hero .tagline {
+  max-width: 38rem;
+}
+
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  letter-spacing: -0.025em;
+}
+
+.sl-markdown-content a:hover,
+.sl-markdown-content a:focus-visible,
+.social-icons a:hover,
+.social-icons a:focus-visible {
+  text-decoration-thickness: 0.14em;
+}
+
+.sl-markdown-content :is(a, button, summary, [role="button"]):focus-visible,
+.header :is(a, button, summary):focus-visible {
+  outline: 3px solid var(--brand-ring);
+  outline-offset: 0.2rem;
+}
+
+.content-panel,
+.right-sidebar-panel,
+.sidebar-pane {
+  border-radius: 1.5rem;
+}
+
+.content-panel {
+  border: 1px solid var(--sl-color-hairline-light);
+  background: color-mix(in srgb, var(--sl-color-bg) 88%, transparent);
+}
+
+[data-theme="light"] .content-panel {
+  background: hsla(48, 50%, 99%, 0.86);
+}
+
+code,
+pre {
+  font-feature-settings: "ss01" 1;
+}
+
+.site-title,
+[data-page-title] {
+  letter-spacing: -0.03em;
+}
+
+.pagination-links a {
+  border-radius: 1rem;
+}
+
+@media (min-width: 50rem) {
+  .hero {
+    padding: clamp(2rem, 3vw, 3rem);
+  }
+}

@@ -13,7 +13,6 @@ import {
   c2BValidationRoute,
   getStkMetadata,
   C2B_VALIDATION_ACCEPT,
-  C2B_VALIDATION_REJECT,
 } from "../dist/index.js";
 
 const handler = createCallbackHandler({

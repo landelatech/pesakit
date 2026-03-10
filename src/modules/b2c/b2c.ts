@@ -2,15 +2,16 @@
  * B2C (Business to Customer) – send money to customers.
  */
 
-import { HttpClient } from "../../http";
+import type { HttpClient } from "../../http";
 import { MpesaValidationError } from "../../errors";
 import {
-  validatePhone,
-  validateUrl,
+  normalizePhone,
   requireNonEmpty,
   requirePositiveAmount,
+  validatePhone,
+  validateUrl,
 } from "../../utils/validation";
-import type { B2CSendInput, B2CSendResponse } from "./types";
+import type { B2CModule, B2CSendInput, B2CSendResponse } from "./types";
 
 export interface B2CModuleConfig {
   http: HttpClient;
@@ -19,7 +20,7 @@ export interface B2CModuleConfig {
   securityCredential: string;
 }
 
-export function createB2CModule(config: B2CModuleConfig) {
+export function createB2CModule(config: B2CModuleConfig): B2CModule {
   const { http, shortCode, initiatorName, securityCredential } = config;
 
   return {
@@ -42,15 +43,7 @@ export function createB2CModule(config: B2CModuleConfig) {
         );
       }
 
-      const phone = input.recipientPhone.replace(/\D/g, "");
-      const partyB =
-        phone.length === 9 && phone.startsWith("7")
-          ? `254${phone}`
-          : phone.length === 10 && phone.startsWith("0")
-            ? `254${phone.slice(1)}`
-            : phone.length === 12
-              ? phone
-              : input.recipientPhone;
+      const partyB = normalizePhone(input.recipientPhone);
 
       const body: Record<string, string | number> = {
         InitiatorName: initiatorName,

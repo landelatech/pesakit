@@ -11,6 +11,8 @@ export interface TransactionStatusInput {
   queueTimeOutUrl: string;
   /** Remarks (e.g. "Status check"). */
   remarks: string;
+  /** Optional occasion or business context. */
+  occasion?: string;
   /** Optional: shortcode override. */
   shortCode?: string;
   /** Identifier type: 1=MSISDN, 2=TILL, 4=ORGANIZATION. Default 4. */
@@ -22,4 +24,9 @@ export interface TransactionStatusResponse {
   OriginatorConversationID: string;
   ResponseCode: string;
   ResponseDescription: string;
+}
+
+/** Public transaction module surface exposed on `Mpesa`. */
+export interface TransactionModule {
+  status(input: TransactionStatusInput): Promise<TransactionStatusResponse>;
 }

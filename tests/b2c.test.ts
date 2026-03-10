@@ -10,8 +10,7 @@ describe("Mpesa B2C", () => {
   const mockToken = () =>
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
-      text: () =>
-        Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+      text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
     } as Response);
 
   const mockB2CSuccess = () =>

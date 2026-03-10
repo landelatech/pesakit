@@ -10,8 +10,7 @@ describe("Mpesa C2B", () => {
   const mockToken = () =>
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
-      text: () =>
-        Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+      text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
     } as Response);
 
   it("registers URLs", async () => {
@@ -41,6 +40,7 @@ describe("Mpesa C2B", () => {
     });
 
     expect(res.ResponseDescription).toBe("success");
+    expect(res.OriginatorConversationID).toBe("orig");
 
     const postCall = vi.mocked(fetch).mock.calls.find((c) => c[1]?.method === "POST");
     const body = JSON.parse((postCall![1] as RequestInit).body as string);
@@ -99,5 +99,21 @@ describe("Mpesa C2B", () => {
         validationUrl: "https://example.com/v",
       })
     ).rejects.toThrow(MpesaValidationError);
+  });
+
+  it("throws when simulate is used in production", async () => {
+    const mpesa = new Mpesa({
+      consumerKey: "key",
+      consumerSecret: "secret",
+      environment: "production",
+      shortCode: "601426",
+    });
+
+    await expect(
+      mpesa.c2b.simulate({
+        amount: 100,
+        msisdn: "254712345678",
+      })
+    ).rejects.toThrow(/sandbox environment/);
   });
 });

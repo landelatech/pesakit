@@ -1,50 +1,67 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
 jobs:
-  build:
+  quality:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version:
           - 20
           - 22
-          - 25
-          - latest
+          - 24
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Setup Node version ${{ matrix['node-version'] }}
-        uses: actions/setup-node@v6
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "yarn"
-          check-latest: true
+          cache: yarn
 
-      - name: Install dependencies with Yarn
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Check formatting
-        run: yarn format:check
+      - name: Run repository checks
+        run: yarn ci:check
 
-      - name: Lint the code
-        run: yarn lint
+  coverage:
+    runs-on: ubuntu-latest
+    needs: quality
 
-      - name: Type-check
-        run: yarn typecheck
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Test the code
-        run: yarn test
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
 
-      - name: Build the project
-        run: yarn build
+      - name: Enable Corepack
+        run: corepack enable
 
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
+      - name: Run coverage
+        run: yarn coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage

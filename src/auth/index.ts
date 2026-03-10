@@ -2,13 +2,7 @@
  * Auth module: OAuth token provider with in-memory cache and automatic refresh.
  */
 
-import {
-  getOAuthUrl,
-  fetchToken,
-  isTokenExpired,
-  parseExpiresIn,
-  type TokenCache,
-} from "./token";
+import { getOAuthUrl, fetchToken, isTokenExpired, parseExpiresIn, type TokenCache } from "./token";
 
 export interface AuthConfig {
   environment: "sandbox" | "production";
@@ -19,6 +13,7 @@ export interface AuthConfig {
 export class AuthProvider {
   private readonly config: AuthConfig;
   private cache: TokenCache | null = null;
+  private pendingToken: Promise<string> | null = null;
 
   constructor(config: AuthConfig) {
     this.config = config;
@@ -30,12 +25,24 @@ export class AuthProvider {
       return this.cache.token;
     }
 
+    this.pendingToken ??= this.refreshToken();
+
+    try {
+      return await this.pendingToken;
+    } finally {
+      this.pendingToken = null;
+    }
+  }
+
+  /** Clear cached token (e.g. for testing or forced refresh). */
+  clearCache(): void {
+    this.cache = null;
+    this.pendingToken = null;
+  }
+
+  private async refreshToken(): Promise<string> {
     const url = getOAuthUrl(this.config.environment);
-    const result = await fetchToken(
-      url,
-      this.config.consumerKey,
-      this.config.consumerSecret
-    );
+    const result = await fetchToken(url, this.config.consumerKey, this.config.consumerSecret);
 
     const expiresIn = parseExpiresIn(result.expires_in);
     this.cache = {
@@ -44,10 +51,5 @@ export class AuthProvider {
     };
 
     return this.cache.token;
-  }
-
-  /** Clear cached token (e.g. for testing or forced refresh). */
-  clearCache(): void {
-    this.cache = null;
   }
 }

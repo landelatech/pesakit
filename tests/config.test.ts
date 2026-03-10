@@ -54,6 +54,15 @@ describe("resolveConfig", () => {
     expect(resolved.environment).toBe("sandbox");
   });
 
+  it("throws when environment is invalid", () => {
+    process.env[MPESA_ENV_KEYS.consumerKey] = "env-key";
+    process.env[MPESA_ENV_KEYS.consumerSecret] = "env-secret";
+    process.env[MPESA_ENV_KEYS.environment] = "staging";
+
+    expect(() => resolveConfig({})).toThrow(MpesaValidationError);
+    expect(() => resolveConfig({})).toThrow(/Invalid environment/);
+  });
+
   it("throws MpesaValidationError when consumerKey and consumerSecret missing", () => {
     delete process.env[MPESA_ENV_KEYS.consumerKey];
     delete process.env[MPESA_ENV_KEYS.consumerSecret];

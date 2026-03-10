@@ -1,18 +1,18 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { EventEmitter } from "node:events";
 import {
-  createCallbackHandler,
-  stkPushRoute,
-  c2BConfirmationRoute,
-  c2BValidationRoute,
-  darajaResultRoute,
   C2B_VALIDATION_ACCEPT,
   C2B_VALIDATION_REJECT,
+  c2BConfirmationRoute,
+  c2BValidationRoute,
+  createCallbackHandler,
+  darajaResultRoute,
   getStkMetadata,
-  parseC2BValidation,
   MpesaCallbackError,
-} from "../src/callbacks/index.js";
+  parseC2BValidation,
+  stkPushRoute,
+} from "../src";
 
 // --- Helpers ---
 
@@ -37,7 +37,9 @@ function makeRes(): { res: ServerResponse; status: () => number; body: () => str
   } as unknown as ServerResponse;
   Object.defineProperty(res, "statusCode", {
     get: () => statusCode,
-    set: (v) => { statusCode = v; },
+    set: (v) => {
+      statusCode = v;
+    },
   });
   return {
     res,

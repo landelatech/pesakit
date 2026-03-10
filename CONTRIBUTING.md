@@ -1,11 +1,15 @@
 # Contributing to @landelatech/mpesa-node
 
-Thank you for considering contributing. This document explains how to set up the repo and what we expect from patches.
+Thanks for contributing. This repository is an open source Node.js SDK for Safaricom M-Pesa Daraja APIs, so changes should optimize for correctness, clarity, and maintainability over clever abstractions.
 
-## Setup
+## Before you start
 
-- **Node.js** 18+
-- **Yarn** (classic v1). Do not use npm or pnpm for lockfiles.
+- Runtime floor: Node.js `20+`
+- Package manager: Yarn classic (`yarn`)
+- Package format: ESM
+- Quality bar: every public behavior change needs tests and docs
+
+## Local setup
 
 ```bash
 git clone https://github.com/landelatech/mpesa-node.git
@@ -13,52 +17,55 @@ cd mpesa-node
 yarn install
 ```
 
-## Scripts
+## Daily commands
 
-| Command | Description |
-|--------|-------------|
-| `yarn build` | Compile TypeScript to `dist/` |
-| `yarn test` | Run unit tests (Vitest) |
-| `yarn test:watch` | Run tests in watch mode |
-| `yarn lint` | Run ESLint |
-| `yarn lint:fix` | ESLint with auto-fix |
-| `yarn format` | Format with Prettier |
-| `yarn format:check` | Check formatting |
-| `yarn typecheck` | TypeScript check (`tsc --noEmit`) |
+| Command                 | What it does                                                  |
+| ----------------------- | ------------------------------------------------------------- |
+| `yarn test`             | Runs the Vitest suite                                         |
+| `yarn coverage`         | Runs tests with V8 coverage reporting                         |
+| `yarn lint`             | Lints source, tests, examples, config, and docs support files |
+| `yarn typecheck`        | Type-checks the TypeScript source                             |
+| `yarn build`            | Builds the published SDK                                      |
+| `yarn docs:dev`         | Starts the Starlight docs site locally                        |
+| `yarn docs:build`       | Builds the docs site                                          |
+| `yarn typecheck:public` | Checks the generated public declarations                      |
+| `yarn ci:check`         | Runs the full local quality gate                              |
 
-## Code style
+## What a good pull request includes
 
-- TypeScript strict mode.
-- ESLint + Prettier; run `yarn lint` and `yarn format:check` before pushing.
-- Prefer small, focused modules; keep the public API minimal and typed.
+- One focused change set with a clear problem statement
+- Tests for runtime behavior and, when relevant, public type behavior
+- Docs updates when public API, examples, or operational guidance change
+- No real credentials, `.env` files, or copied portal secrets
 
-## Tests
+## Adding or changing an API surface
 
-- Unit tests live in `tests/` and use Vitest.
-- Mock HTTP (e.g. `fetch`) so tests do not call real Daraja APIs.
-- Run `yarn test` and ensure all tests pass before submitting a PR.
+1. Add or update request/response types.
+2. Implement the module behavior with validation and typed errors.
+3. Wire the module into the `Mpesa` client and root exports.
+4. Add request-shape and validation tests.
+5. Update the docs site and examples.
 
-## Pull requests
+## Documentation workflow
 
-1. Fork the repo and create a branch from `main`.
-2. Make your changes; add or update tests as needed.
-3. Run `yarn build`, `yarn test`, `yarn lint`, `yarn format:check`.
-4. Open a PR with a clear description and reference any issues.
-5. Do not commit `.env` or real M-Pesa credentials.
+- Long-form docs live in `docs/`.
+- The root `README.md` stays short and package-focused.
+- If you change SDK behavior, update the relevant docs page in the same pull request.
 
-## Adding a new API (e.g. new Daraja endpoint)
+## Daraja implementation expectations
 
-1. Add types in `src/modules/<name>/types.ts`.
-2. Add module in `src/modules/<name>/<name>.ts` using `HttpClient` and validation helpers.
-3. Wire the module in `src/clients/mpesa-client.ts` and expose it on `Mpesa`.
-4. Export public types from `src/index.ts`.
-5. Add unit tests in `tests/` with mocked `fetch`.
-6. Update README and examples if user-facing.
+- Stay close to current Daraja field names and behavior.
+- Prefer explicit validation errors over hidden fallbacks.
+- Treat asynchronous callbacks as the final source of truth for async APIs.
+- Call out any portal ambiguities in the PR description when the official docs are inconsistent or incomplete.
 
-## Releases
+## Release notes for contributors
 
-Releases are created from version tags (e.g. `v1.0.0`). The GitHub Actions release workflow runs on tag push and publishes release notes. Do not commit version bumps in PRs; maintainers will tag and release.
+- Releases are cut from tags matching `v*`.
+- Maintainers handle versioning and publish steps.
+- If your change is breaking, call it out explicitly in the PR summary.
 
-## Questions
+## Need help?
 
-Open an issue for bugs, feature requests, or questions.
+- Open a draft PR early if you want design feedback.
+- Use issues for bugs, missing endpoint requests, and docs gaps.

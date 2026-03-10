@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | M-Pesa Node</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Public Sans", system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(13, 126, 70, 0.18), transparent 35%),
+          radial-gradient(circle at top right, rgba(217, 164, 65, 0.16), transparent 28%), #091810;
+        color: #f6f2ea;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          background:
+            radial-gradient(circle at top left, rgba(13, 126, 70, 0.1), transparent 35%),
+            radial-gradient(circle at top right, rgba(217, 164, 65, 0.12), transparent 28%), #fdfbf6;
+          color: #153126;
+        }
+
+        a {
+          color: #0d7e46;
+        }
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+      }
+
+      main {
+        max-width: 38rem;
+        padding: 2rem;
+        border: 1px solid rgba(217, 164, 65, 0.24);
+        border-radius: 1.5rem;
+        background: rgba(9, 24, 16, 0.72);
+        backdrop-filter: blur(10px);
+      }
+
+      @media (prefers-color-scheme: light) {
+        main {
+          background: rgba(255, 255, 255, 0.82);
+        }
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        font-size: clamp(2rem, 5vw, 3rem);
+        line-height: 1.05;
+      }
+
+      p {
+        line-height: 1.7;
+      }
+
+      a {
+        color: #8be0ae;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Page not found</h1>
+      <p>
+        This page is not part of the current M-Pesa Node documentation site. Head back to the
+        <a href="/mpesa-node/">docs home page</a> and continue from the main guides.
+      </p>
+    </main>
+  </body>
+</html>

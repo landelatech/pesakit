@@ -2,10 +2,10 @@
  * Transaction Status API – query status of a transaction.
  */
 
-import { HttpClient } from "../../http";
+import type { HttpClient } from "../../http";
 import { MpesaValidationError } from "../../errors";
 import { validateUrl, requireNonEmpty } from "../../utils/validation";
-import type { TransactionStatusInput, TransactionStatusResponse } from "./types";
+import type { TransactionModule, TransactionStatusInput, TransactionStatusResponse } from "./types";
 
 export interface TransactionModuleConfig {
   http: HttpClient;
@@ -16,7 +16,7 @@ export interface TransactionModuleConfig {
   securityCredential: string;
 }
 
-export function createTransactionModule(config: TransactionModuleConfig) {
+export function createTransactionModule(config: TransactionModuleConfig): TransactionModule {
   const { http, shortCode, initiatorName, securityCredential } = config;
 
   return {
@@ -50,6 +50,9 @@ export function createTransactionModule(config: TransactionModuleConfig) {
         QueueTimeOutURL: input.queueTimeOutUrl,
         Remarks: input.remarks,
       };
+      if (input.occasion !== undefined && input.occasion !== "") {
+        Object.assign(body, { Occasion: input.occasion });
+      }
 
       return http.post<TransactionStatusResponse>("/mpesa/transactionstatus/v1/query", body);
     },

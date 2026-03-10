@@ -2,10 +2,10 @@
  * Account Balance API – request balance callback.
  */
 
-import { HttpClient } from "../../http";
+import type { HttpClient } from "../../http";
 import { MpesaValidationError } from "../../errors";
-import { validateUrl } from "../../utils/validation";
-import type { AccountBalanceInput, AccountBalanceResponse } from "./types";
+import { requireNonEmpty, validateUrl } from "../../utils/validation";
+import type { AccountBalanceInput, AccountBalanceResponse, AccountModule } from "./types";
 
 export interface AccountModuleConfig {
   http: HttpClient;
@@ -16,7 +16,7 @@ export interface AccountModuleConfig {
   securityCredential: string;
 }
 
-export function createAccountModule(config: AccountModuleConfig) {
+export function createAccountModule(config: AccountModuleConfig): AccountModule {
   const { http, shortCode, initiatorName, securityCredential } = config;
 
   return {
@@ -27,6 +27,8 @@ export function createAccountModule(config: AccountModuleConfig) {
     async balance(input: AccountBalanceInput): Promise<AccountBalanceResponse> {
       validateUrl(input.resultUrl, "resultUrl");
       validateUrl(input.queueTimeOutUrl, "queueTimeOutUrl");
+      const remarks = input.remarks ?? "Account balance query";
+      requireNonEmpty(remarks, "remarks");
 
       const short = input.shortCode ?? shortCode;
       if (!short || !initiatorName || !securityCredential) {
@@ -45,6 +47,7 @@ export function createAccountModule(config: AccountModuleConfig) {
         IdentifierType: identifierType,
         ResultURL: input.resultUrl,
         QueueTimeOutURL: input.queueTimeOutUrl,
+        Remarks: remarks,
       };
 
       return http.post<AccountBalanceResponse>("/mpesa/accountbalance/v1/query", body);

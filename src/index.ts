@@ -71,13 +71,37 @@ export type {
 } from "./callbacks/index";
 
 // Module input/output types for consumers
-export type { StkPushInput, StkPushResponse, StkPushResult, StkQueryInput, StkQueryResponse } from "./modules/stk/types";
+export type {
+  StkPushInput,
+  StkPushResponse,
+  StkPushResult,
+  StkQueryInput,
+  StkQueryResponse,
+} from "./modules/stk/types";
+export type { StkModule, TransactionType } from "./modules/stk/types";
 export type {
   C2BRegisterUrlsInput,
   C2BRegisterUrlsResponse,
   C2BSimulateInput,
   C2BSimulateResponse,
+  C2BModule,
+  ResponseType,
 } from "./modules/c2b/types";
-export type { B2CSendInput, B2CSendResponse } from "./modules/b2c/types";
-export type { AccountBalanceInput, AccountBalanceResponse } from "./modules/account/types";
-export type { TransactionStatusInput, TransactionStatusResponse } from "./modules/transaction/types";
+export type { B2CCommandId, B2CModule, B2CSendInput, B2CSendResponse } from "./modules/b2c/types";
+export type {
+  AccountBalanceInput,
+  AccountBalanceResponse,
+  AccountModule,
+} from "./modules/account/types";
+export type {
+  TransactionModule,
+  TransactionStatusInput,
+  TransactionStatusResponse,
+} from "./modules/transaction/types";
+export type {
+  ReversalCommandId,
+  ReversalInput,
+  ReversalModule,
+  ReversalReceiverIdentifierType,
+  ReversalResponse,
+} from "./modules/reversal/types";

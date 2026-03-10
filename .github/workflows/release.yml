@@ -12,31 +12,31 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
         with:
-          node-version: latest
-          cache: "yarn"
+          node-version: 22
+          cache: yarn
           registry-url: https://registry.npmjs.org
 
-      - name: Install
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-
-      - name: Test
-        run: yarn test
-
-      - name: Build
-        run: yarn build
+      - name: Run quality gates
+        run: yarn ci:check
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --access public --provenance
 
-      - name: Publish Release
+      - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true

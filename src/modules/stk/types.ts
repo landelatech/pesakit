@@ -29,16 +29,16 @@ export interface StkPushResponse {
   CustomerMessage: string;
 }
 
-/** STK Push response plus the timestamp used for the request. Use this timestamp with stkQuery() when polling status. */
+/** STK Push response plus the timestamp used for the request. */
 export type StkPushResult = StkPushResponse & {
-  /** Timestamp used for this push (YYYYMMDDHHmmss). Pass to stkQuery() as `timestamp` when querying status. */
+  /** Timestamp used for this push (YYYYMMDDHHmmss). Useful for logging and deterministic tests. */
   timestamp: string;
 };
 
 export interface StkQueryInput {
   /** CheckoutRequestID from STK Push response. */
   checkoutRequestId: string;
-  /** Optional: timestamp from the original stkPush() response. Use it when querying so the password matches the push. */
+  /** Optional timestamp override for deterministic testing or debugging. */
   timestamp?: string;
   /** Optional: shortcode override. */
   shortCode?: string;
@@ -51,4 +51,10 @@ export interface StkQueryResponse {
   CheckoutRequestID: string;
   ResultCode?: number;
   ResultDesc?: string;
+}
+
+/** Public STK module surface exposed on `Mpesa`. */
+export interface StkModule {
+  push(input: StkPushInput): Promise<StkPushResult>;
+  query(input: StkQueryInput): Promise<StkQueryResponse>;
 }

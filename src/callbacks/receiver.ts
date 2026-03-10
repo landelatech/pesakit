@@ -10,9 +10,14 @@ import type { C2BConfirmationPayload, C2BValidationPayload, DarajaResultPayload 
 import { parseC2BConfirmation, parseC2BValidation, parseDarajaResult } from "./parsers";
 import { MpesaCallbackError } from "./parsers";
 
-export type { StkPushCallbackPayload, C2BConfirmationPayload, C2BValidationPayload, DarajaResultPayload };
+export type {
+  StkPushCallbackPayload,
+  C2BConfirmationPayload,
+  C2BValidationPayload,
+  DarajaResultPayload,
+};
 
-type HttpHandler = (req: IncomingMessage, res: ServerResponse) => void;
+type HttpHandler = (req: IncomingMessage, res: ServerResponse) => void | Promise<void>;
 
 /** Optional response override from handler (e.g. C2B validation must return ResultCode/ResultDesc). */
 export interface CallbackResponseOverride {
@@ -23,7 +28,9 @@ export interface CallbackResponseOverride {
 /** Route config: parser + handler. Handler receives typed payload; can return void or override response. */
 export interface CallbackRoute<T> {
   parse: (body: unknown) => T;
-  handler: (payload: T) => void | Promise<void> | CallbackResponseOverride | Promise<CallbackResponseOverride>;
+  handler: (
+    payload: T
+  ) => void | Promise<void> | CallbackResponseOverride | Promise<CallbackResponseOverride>;
 }
 
 export interface CreateCallbackHandlerOptions {
@@ -65,6 +72,10 @@ function send(res: ServerResponse, status: number, body: string | Record<string,
   }
 }
 
+function isResponseOverride(value: unknown): value is CallbackResponseOverride {
+  return value != null && typeof value === "object" && ("statusCode" in value || "body" in value);
+}
+
 /**
  * Create an HTTP request handler that receives Daraja callbacks, parses the body, and calls your typed handler.
  * Use with Node's http.createServer(handler) or mount in your framework.
@@ -93,13 +104,7 @@ function send(res: ServerResponse, status: number, body: string | Record<string,
  * ```
  */
 export function createCallbackHandler(options: CreateCallbackHandlerOptions): HttpHandler {
-  const {
-    routes,
-    successStatus = 200,
-    successBody = "OK",
-    onParseError,
-    onNotFound,
-  } = options;
+  const { routes, successStatus = 200, successBody = "OK", onParseError, onNotFound } = options;
 
   return async function callbackHandler(req: IncomingMessage, res: ServerResponse): Promise<void> {
     if (req.method !== "POST") {
@@ -149,9 +154,8 @@ export function createCallbackHandler(options: CreateCallbackHandlerOptions): Ht
 
     try {
       const result = await route.handler(payload);
-      if (result != null && typeof result === "object" && ("statusCode" in result || "body" in result)) {
-        const override = result as CallbackResponseOverride;
-        send(res, override.statusCode ?? successStatus, override.body ?? successBody);
+      if (isResponseOverride(result)) {
+        send(res, result.statusCode ?? successStatus, result.body ?? successBody);
       } else {
         send(res, successStatus, successBody);
       }
@@ -164,21 +168,31 @@ export function createCallbackHandler(options: CreateCallbackHandlerOptions): Ht
 }
 
 /** Predefined route for STK Push callback. */
-export function stkPushRoute(handler: (payload: StkPushCallbackPayload) => void | Promise<void>): CallbackRoute<StkPushCallbackPayload> {
+export function stkPushRoute(
+  handler: (payload: StkPushCallbackPayload) => void | Promise<void>
+): CallbackRoute<StkPushCallbackPayload> {
   return { parse: parseStkPushCallback, handler };
 }
 
 /** Predefined route for C2B confirmation. */
-export function c2BConfirmationRoute(handler: (payload: C2BConfirmationPayload) => void | Promise<void>): CallbackRoute<C2BConfirmationPayload> {
+export function c2BConfirmationRoute(
+  handler: (payload: C2BConfirmationPayload) => void | Promise<void>
+): CallbackRoute<C2BConfirmationPayload> {
   return { parse: parseC2BConfirmation, handler };
 }
 
 /** Predefined route for C2B validation. Return C2B_VALIDATION_ACCEPT or C2B_VALIDATION_REJECT (or a custom { statusCode, body }) so Daraja gets the correct JSON. */
-export function c2BValidationRoute(handler: (payload: C2BValidationPayload) => void | Promise<void> | CallbackResponseOverride | Promise<CallbackResponseOverride>): CallbackRoute<C2BValidationPayload> {
+export function c2BValidationRoute(
+  handler: (
+    payload: C2BValidationPayload
+  ) => void | Promise<void> | CallbackResponseOverride | Promise<CallbackResponseOverride>
+): CallbackRoute<C2BValidationPayload> {
   return { parse: parseC2BValidation, handler };
 }
 
 /** Predefined route for B2C / Account Balance / Transaction Status result callback. */
-export function darajaResultRoute(handler: (payload: DarajaResultPayload) => void | Promise<void>): CallbackRoute<DarajaResultPayload> {
+export function darajaResultRoute(
+  handler: (payload: DarajaResultPayload) => void | Promise<void>
+): CallbackRoute<DarajaResultPayload> {
   return { parse: parseDarajaResult, handler };
 }

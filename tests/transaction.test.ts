@@ -10,8 +10,7 @@ describe("Mpesa Transaction Status", () => {
   const mockToken = () =>
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
-      text: () =>
-        Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
+      text: () => Promise.resolve(JSON.stringify({ access_token: "token", expires_in: "3599" })),
     } as Response);
 
   const mockStatusSuccess = () =>
@@ -76,6 +75,24 @@ describe("Mpesa Transaction Status", () => {
         remarks: "Check",
       })
     ).rejects.toThrow(MpesaValidationError);
+  });
+
+  it("includes occasion when provided", async () => {
+    mockToken();
+    mockStatusSuccess();
+
+    const mpesa = new Mpesa(baseConfig);
+    await mpesa.transaction.status({
+      transactionId: "ABC123XYZ",
+      resultUrl: "https://example.com/status/result",
+      queueTimeOutUrl: "https://example.com/status/timeout",
+      remarks: "Status check",
+      occasion: "Order reconciliation",
+    });
+
+    const postCall = vi.mocked(fetch).mock.calls.find((c) => c[1]?.method === "POST");
+    const body = JSON.parse((postCall![1] as RequestInit).body as string);
+    expect(body.Occasion).toBe("Order reconciliation");
   });
 
   it("throws on invalid resultUrl", async () => {

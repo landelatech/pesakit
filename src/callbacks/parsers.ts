@@ -47,7 +47,9 @@ function expectNumber(value: unknown): number {
 
 function expectString(value: unknown): string {
   if (typeof value === "string") return value;
-  if (value !== null && value !== undefined) return String(value);
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
   throw new MpesaCallbackError("Expected string");
 }
 
@@ -203,7 +205,9 @@ export function parseDarajaResult(body: unknown): DarajaResultPayload {
   if (Result.ReferenceData && typeof Result.ReferenceData === "object") {
     const rd = Result.ReferenceData as { ReferenceItem?: unknown };
     if (Array.isArray(rd.ReferenceItem)) {
-      resultInner.ReferenceData = { ReferenceItem: rd.ReferenceItem as Array<{ Key: string; Value: string }> };
+      resultInner.ReferenceData = {
+        ReferenceItem: rd.ReferenceItem as { Key: string; Value: string }[],
+      };
     }
   }
 

@@ -82,7 +82,7 @@ export interface DarajaResultPayload {
       ResultParameter: CallbackItem[];
     };
     ReferenceData?: {
-      ReferenceItem: Array<{ Key: string; Value: string }>;
+      ReferenceItem: { Key: string; Value: string }[];
     };
   };
 }
