@@ -49,3 +49,9 @@ sidebar:
 ## Scope note
 
 This SDK focuses on the commonly used Daraja payment and operational APIs. The current implementation surface and known gaps are tracked in the [API coverage matrix](/reference/api-coverage/).
+
+## About Landela Tech
+
+Landela Tech specializes in payment integrations across local and international providers, building practical infrastructure for teams shipping real-world payment flows.
+
+Learn more at [landelatech.com](https://landelatech.com/).

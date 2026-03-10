@@ -7,7 +7,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "homepage": "https://landelatech.github.io/mpesa-node/",
+  "homepage": "https://opensource.landelatech.com/mpesa-node",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

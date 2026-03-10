@@ -4,7 +4,7 @@ import starlight from "@astrojs/starlight";
 const repositoryUrl = "https://github.com/landelatech/mpesa-node";
 
 export default defineConfig({
-  site: "https://landelatech.github.io",
+  site: "https://opensource.landelatech.com",
   base: "/mpesa-node",
   integrations: [
     starlight({

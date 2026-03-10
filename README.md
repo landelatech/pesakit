@@ -50,10 +50,16 @@ console.log(response.CheckoutRequestID);
 
 ## Documentation
 
-- Docs site: [landelatech.github.io/mpesa-node](https://landelatech.github.io/mpesa-node/)
+- Docs site: [opensource.landelatech.com/mpesa-node](https://opensource.landelatech.com/mpesa-node)
 - Local docs dev server: `yarn docs:dev`
 
 The docs cover setup, configuration, callbacks, sandbox credentials, go-live preparation, troubleshooting, error handling, and the current API coverage matrix.
+
+## About Landela Tech
+
+Landela Tech builds payment integrations for businesses across local and international providers, with a focus on practical, production-ready infrastructure.
+
+- Website: [landelatech.com](https://landelatech.com/)
 
 ## Node runtime note
 
