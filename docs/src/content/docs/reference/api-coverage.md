@@ -1,54 +1,77 @@
 ---
 title: API Coverage
-description: See what this SDK implements today and which Daraja areas still remain outside the package.
+description: See how the current PesaKit surface maps to the broader Daraja catalog and where the SDK intentionally draws the line.
 sidebar:
   order: 4
 ---
 
-## Implemented in this SDK
+## Status guide
 
-- OAuth token generation and caching (handled internally rather than as a user-facing method)
-- STK Push
-- STK Query
+| Status | Meaning |
+| ------ | ------- |
+| `Implemented` | Available in PesaKit today |
+| `Internal only` | Used by the SDK internally, but not exposed as a primary user-facing module |
+| `Not implemented` | Not in the package today, but part of the broader Daraja catalog |
+| `Out of scope` | Intentionally excluded because it usually depends on special onboarding, commercial agreements, fees, or a niche workflow outside the SDK focus |
+| `Catalog only` | Shown in the Daraja catalog, but not really a callable SDK API surface for this package |
+
+## Daraja catalog matrix
+
+| Catalog item | Category | Status | Notes |
+| ------------ | -------- | ------ | ----- |
+| Getting Started | Experience | `Catalog only` | Documentation/onboarding entry, not an SDK API |
+| Authorization (OAuth 2.0) | Security | `Internal only` | Handled automatically by PesaKit token management |
+| Dynamic QR | Payments | `Implemented` | Exposed as `mpesa.qr.generate()` |
+| M-Pesa Express Simulate | Payments | `Implemented` | Exposed as `mpesa.stkPush()` |
+| M-Pesa Express Query | Payments | `Implemented` | Exposed as `mpesa.stkQuery()` |
+| Customer To Business (C2B) | Payments | `Implemented` | URL registration, callback handling, and sandbox simulation are covered |
+| Customer To Business Register URL | Payments | `Implemented` | Exposed as `mpesa.c2b.registerUrls()` |
+| Business To Customer (B2C) | Disbursement | `Implemented` | Exposed as `mpesa.b2c.send()` |
+| Transaction Status | Payments | `Implemented` | Exposed as `mpesa.transaction.status()` |
+| Account Balance | Payments | `Implemented` | Exposed as `mpesa.account.balance()` |
+| Reversals | Payments | `Implemented` | Exposed as `mpesa.reversal.reverse()` |
+| Tax Remittance | Payments | `Not implemented` | Tracked in the matrix, not currently wrapped |
+| Business Pay Bill | Payments | `Not implemented` | Part of the broader B2B-style Daraja surface |
+| Business Buy Goods | Payments | `Not implemented` | Part of the broader B2B-style Daraja surface |
+| B2B Express CheckOut | Payments | `Not implemented` | Not currently wrapped |
+| Pull Transactions | Experience | `Not implemented` | Useful for reconciliation, but not currently wrapped |
+| Business To Pochi | Disbursement | `Out of scope` | Usually depends on extra onboarding, wallet prerequisites, and narrower partner setup |
+| SWAP | Security | `Out of scope` | Commercial onboarding, fraud-check workflow, and separate Safaricom approval path |
+| IMSI | Security | `Out of scope` | Commercial onboarding, fraud-check workflow, and separate Safaricom approval path |
+| B2C Account Top Up | Payments | `Not implemented` | Not currently wrapped; more specialized than the core payout surface |
+| M-Pesa Ratiba | Payments | `Out of scope` | Standing-order product with special onboarding and commercial agreement requirements |
+| Bill Manager | Experience | `Catalog only` | Broader platform workflow, not a normal SDK API surface here |
+| IoT SIM Management | Experience | `Out of scope` | Outside the M-Pesa payment integration focus of this SDK |
+
+## What PesaKit is optimized for
+
+PesaKit is intentionally focused on the M-Pesa flows most Node teams need for normal payment and operational work:
+
+- STK checkout flows
 - Dynamic QR generation
-- C2B URL registration
-- C2B sandbox simulation
-- B2C payments
-- Account balance
-- Transaction status
-- Reversal
-- Callback parsing and a standalone callback handler
+- C2B collection flows
+- B2C payout flows
+- balance, status, and reversal operations
+- callback-safe backend integrations
 
-## Not implemented in this SDK today
+That focus is deliberate. Daraja exposes a wider catalog than the SDK should try to wrap all at once.
 
-- B2B transfer flows
-- B2Pochi
-- Pull Transactions / transaction statements
-- Ratiba / standing orders
-- Tax remittance
-- Other QR-led flows beyond Dynamic QR generation
-- Additional Daraja or portal products that may be enabled for specific accounts but are outside this package’s current scope
+## What we intentionally leave out
 
-Daraja 3.0 exposes a broader API surface than this package currently covers. This SDK intentionally stays focused on the implemented payment and operational flows above.
+Some Daraja catalog items are not a good fit for the core package because they usually involve one or more of the following:
 
-## APIs intentionally out of scope for this SDK
+- prior approval from Safaricom
+- signed commercial agreements
+- per-call or connection fees
+- special account conversion or wallet prerequisites
+- a narrower enterprise workflow than the typical Node.js payment integration
 
-Some Daraja APIs exist, but this package intentionally does not target them because they usually involve prior approval, commercial agreements, special onboarding, or a narrower enterprise audience than the SDK is optimized for.
+That is why APIs such as `SWAP`, `IMSI`, `Ratiba`, and `Business To Pochi` are documented in the matrix but intentionally excluded from the PesaKit surface.
 
-These include:
-
-- SWAP API for SIM-swap checks
-- IMSI API for hashed IMSI, network-age, and swap-date signals
-- Ratiba / standing orders
-- B2Pochi where partner setup and wallet prerequisites apply
-- Any other Daraja APIs that require commercial onboarding or non-standard Safaricom enablement before normal use
-
-For most teams using this SDK, these APIs are outside the practical scope of a typical STK, Dynamic QR, C2B, or B2C integration. That is why they are intentionally not implemented here.
-
-If your team needs SWAP, IMSI, Ratiba, B2Pochi, or another bespoke Daraja integration outside the core payment flows, you can reach out to [Landela Tech](https://landelatech.com/) for implementation support.
+If your team needs one of those integrations, you can reach out to [Landela Tech](https://landelatech.com/) for bespoke implementation support.
 
 ## Reading this matrix
 
-- This page tracks SDK coverage, not an exhaustive promise about every capability available in every Safaricom account.
+- This matrix maps the current package against the broader Daraja catalog you reviewed; it is not a promise that every Daraja item should or will be added.
 - Daraja product visibility and enablement can vary by profile, account approval, and portal changes.
-- Use the [Safaricom API catalog](https://developer.safaricom.co.ke/apis) as the starting point for checking what is currently available to your team.
+- The [Safaricom API catalog](https://developer.safaricom.co.ke/apis) remains the starting point for current product discovery.
