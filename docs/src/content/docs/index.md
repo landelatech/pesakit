@@ -38,13 +38,22 @@ sidebar:
 1. Read the [quick start](/getting-started/quick-start/).
 2. Configure your [environment and credentials](/getting-started/configuration/).
 3. Confirm the [Node runtime expectations](/getting-started/node-runtime/).
-4. Pick the guide for your first flow: [STK Push](/guides/stk-push/), [C2B](/guides/c2b/), or [B2C](/guides/b2c/).
+4. Follow the [end-to-end STK payment flow](/guides/end-to-end-stk/) if you are integrating your first checkout.
+5. Pick the guide for your first flow: [STK Push](/guides/stk-push/), [C2B](/guides/c2b/), or [B2C](/guides/b2c/).
+
+## Choose your path
+
+- Taking customer payments from a phone prompt: start with [STK Push and Query](/guides/stk-push/) and then read the [end-to-end STK payment flow](/guides/end-to-end-stk/).
+- Receiving direct customer payments into your business shortcode: use [C2B Register URLs and Simulation](/guides/c2b/).
+- Sending money out to customers: use [B2C Payments](/guides/b2c/).
+- Building callback receivers and recovery jobs: use [Callbacks and Local Testing](/guides/callbacks/) and [Callback Reliability and Reconciliation](/operations/callback-reliability/).
 
 ## Operational docs
 
 - Need sandbox credentials? Use the [sandbox setup guide](/operations/sandbox-credentials/).
+- Designing resilient callback handling? Read [callback reliability and reconciliation](/operations/callback-reliability/).
 - Preparing for production? Follow the [go-live checklist](/operations/go-live/).
-- Tracking failures? Start with the [error reference](/reference/errors/) and [troubleshooting guide](/reference/troubleshooting/).
+- Tracking failures? Start with the [error reference](/reference/errors/), [result and status reference](/reference/result-codes/), and [troubleshooting guide](/reference/troubleshooting/).
 
 ## Scope note
 

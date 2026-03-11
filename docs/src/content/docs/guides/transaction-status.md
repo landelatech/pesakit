@@ -2,7 +2,7 @@
 title: Transaction Status
 description: Ask Daraja for the outcome of an existing transaction when your own record is incomplete.
 sidebar:
-  order: 5
+  order: 6
 ---
 
 ## Query a transaction

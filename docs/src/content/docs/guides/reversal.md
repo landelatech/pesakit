@@ -2,7 +2,7 @@
 title: Reversal
 description: Reverse a completed M-Pesa transaction with typed request validation and callback handling.
 sidebar:
-  order: 6
+  order: 7
 ---
 
 ## Request a reversal

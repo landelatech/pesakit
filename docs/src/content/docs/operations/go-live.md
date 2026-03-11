@@ -2,7 +2,7 @@
 title: Go Live Checklist
 description: Prepare your integration for production rollout with the SDK and the Daraja portal.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 ## Before you request production access
@@ -18,6 +18,7 @@ sidebar:
 - Verify your initiator user and security credential are valid for the products you will use.
 - Confirm support ownership for callback outages, reconciliation, and reversals.
 - Make sure your logs never print raw secrets.
+- Make sure you have a documented [callback reliability and reconciliation](/operations/callback-reliability/) process before launch.
 
 ## Deployment checklist
 

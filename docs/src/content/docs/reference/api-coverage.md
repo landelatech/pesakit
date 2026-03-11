@@ -2,7 +2,7 @@
 title: API Coverage
 description: See what this SDK implements today and which Daraja areas still remain outside the package.
 sidebar:
-  order: 3
+  order: 4
 ---
 
 ## Implemented in this SDK

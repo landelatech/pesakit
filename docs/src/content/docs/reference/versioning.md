@@ -2,7 +2,7 @@
 title: Versioning and Compatibility
 description: Compatibility guarantees for the SDK, Node runtime support, and release expectations.
 sidebar:
-  order: 4
+  order: 5
 ---
 
 ## Runtime compatibility
