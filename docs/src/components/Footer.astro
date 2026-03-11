@@ -1,0 +1,34 @@
+---
+import DefaultFooter from "@astrojs/starlight/components/Footer.astro";
+import FeelbackYesNo from "astro-feelback/components/FeelbackYesNo.astro";
+
+const { starlightRoute } = Astro.locals;
+const feedbackContentSetId = import.meta.env.PUBLIC_FEELBACK_CONTENT_SET_ID;
+const shouldRenderFeedback =
+  Boolean(feedbackContentSetId) &&
+  !starlightRoute.entry.data.hero &&
+  starlightRoute.entry.slug !== "404";
+
+const feedbackTarget = feedbackContentSetId
+  ? {
+      contentSetId: feedbackContentSetId,
+      key: starlightRoute.entry.slug,
+    }
+  : undefined;
+---
+
+<DefaultFooter />
+
+{
+  shouldRenderFeedback && feedbackTarget && (
+    <section class="docs-feedback" aria-label="Page feedback">
+      <p class="docs-feedback__eyebrow">Docs feedback</p>
+      <FeelbackYesNo
+        {...feedbackTarget}
+        behavior="switch"
+        textQuestion="Was this page useful?"
+        textAnswer="Thanks. This helps us improve the docs."
+      />
+    </section>
+  )
+}

@@ -28,6 +28,11 @@ yarn docs:dev
 yarn ci:check
 ```
 
+## Optional docs environment variables
+
+- `PUBLIC_GA_MEASUREMENT_ID` enables Google Analytics in the Starlight site build.
+- `PUBLIC_FEELBACK_CONTENT_SET_ID` enables page-level feedback widgets in the docs footer.
+
 ## More detail
 
 The root repository guide in [`CONTRIBUTING.md`](https://github.com/landelatech/mpesa-node/blob/main/CONTRIBUTING.md) is the maintainers’ source of truth for pull request expectations, release assumptions, and repository policies.

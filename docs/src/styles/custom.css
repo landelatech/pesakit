@@ -164,6 +164,37 @@ pre {
   border-radius: 1rem;
 }
 
+.docs-feedback {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, hsla(148, 74%, 37%, 0.08), transparent 60%),
+    color-mix(in srgb, var(--sl-color-bg-sidebar) 72%, transparent);
+}
+
+.docs-feedback__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+}
+
+.docs-feedback .feelback-container {
+  margin: 0;
+}
+
+.docs-feedback .feelback-q {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 @media (min-width: 50rem) {
   .hero {
     padding: clamp(2rem, 3vw, 3rem);

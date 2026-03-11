@@ -84,6 +84,7 @@ out
 dist
 docs/.astro
 docs/dist
+docs/src/content/docs/sdk-api
 
 # Gatsby files
 .cache/

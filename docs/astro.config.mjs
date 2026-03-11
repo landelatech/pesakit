@@ -1,12 +1,53 @@
-import { defineConfig } from "astro/config";
+import { fileURLToPath } from "node:url";
+
+import partytown from "@astrojs/partytown";
 import starlight from "@astrojs/starlight";
+import { defineConfig } from "astro/config";
+import starlightLinksValidator from "starlight-links-validator";
+import { createStarlightTypeDocPlugin } from "starlight-typedoc";
 
 const repositoryUrl = "https://github.com/landelatech/mpesa-node";
 const siteUrl = "https://pesakit.landelatech.com";
+const googleAnalyticsId = process.env.PUBLIC_GA_MEASUREMENT_ID;
+const [starlightTypeDoc, apiSidebarGroup] = createStarlightTypeDocPlugin();
+
+const googleAnalyticsHead = googleAnalyticsId
+  ? [
+      {
+        tag: "script",
+        attrs: {
+          async: true,
+          src: `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`,
+          type: "text/partytown",
+        },
+      },
+      {
+        tag: "script",
+        attrs: {
+          type: "text/partytown",
+        },
+        content: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "${googleAnalyticsId}");
+        `.trim(),
+      },
+    ]
+  : [];
 
 export default defineConfig({
   site: siteUrl,
   integrations: [
+    ...(googleAnalyticsId
+      ? [
+          partytown({
+            config: {
+              forward: ["dataLayer.push"],
+            },
+          }),
+        ]
+      : []),
     starlight({
       title: "PesaKit",
       description:
@@ -27,11 +68,31 @@ export default defineConfig({
       editLink: {
         baseUrl: `${repositoryUrl}/edit/main/docs/`,
       },
-      customCss: ["./src/styles/custom.css"],
+      head: googleAnalyticsHead,
+      customCss: [
+        "./src/styles/custom.css",
+        "astro-feelback/styles/feelback.css",
+      ],
+      components: {
+        Footer: "./src/components/Footer.astro",
+      },
       lastUpdated: true,
       credits: false,
       disable404Route: true,
       favicon: "/favicon.svg",
+      plugins: [
+        starlightLinksValidator(),
+        starlightTypeDoc({
+          entryPoints: [fileURLToPath(new URL("../src/index.ts", import.meta.url))],
+          output: "sdk-api",
+          pagination: true,
+          sidebar: {
+            collapsed: true,
+            label: "SDK API",
+          },
+          tsconfig: fileURLToPath(new URL("../tsconfig.json", import.meta.url)),
+        }),
+      ],
       sidebar: [
         {
           label: "Get Started",
@@ -47,7 +108,13 @@ export default defineConfig({
         },
         {
           label: "Reference",
-          autogenerate: { directory: "reference" },
+          items: [
+            {
+              label: "Reference Guides",
+              autogenerate: { directory: "reference" },
+            },
+            apiSidebarGroup,
+          ],
         },
         {
           label: "Project",
