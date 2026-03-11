@@ -35,19 +35,17 @@ jobs:
 
       - name: Pack npm artifact
         run: |
-          mkdir -p .release
-          npm pack --json --pack-destination .release > .release/pack.json
+          mkdir -p release-artifacts
+          npm pack --json --pack-destination release-artifacts > release-artifacts/pack.json
 
       - name: Verify publish tarball
-        run: npm publish --dry-run --access public .release/*.tgz
+        run: npm publish --dry-run --access public release-artifacts/*.tgz
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v7
         with:
           name: npm-package
-          path: |
-            .release/*.tgz
-            .release/pack.json
+          path: release-artifacts/*.tgz
           if-no-files-found: error
 
   release:
@@ -62,7 +60,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: npm-package
-          path: .release
+          path: release-artifacts
 
       - name: Setup Node 24
         uses: actions/setup-node@v6
@@ -71,10 +69,10 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Publish to npm
-        run: npm publish --access public .release/*.tgz
+        run: npm publish --access public release-artifacts/*.tgz
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: .release/*.tgz
+          files: release-artifacts/*.tgz
