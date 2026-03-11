@@ -1,6 +1,6 @@
 {
   "name": "@landelatech/pesakit",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "PesaKit is the Node.js toolkit for Safaricom M-Pesa Daraja APIs with built-in OAuth, typed payment flows, callback helpers, and low-boilerplate integration.",
   "type": "module",
   "packageManager": "yarn@1.22.22",
