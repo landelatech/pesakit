@@ -2,18 +2,20 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
 const repositoryUrl = "https://github.com/landelatech/mpesa-node";
-const siteUrl = "https://mpesa-node-docs.landelatech.com";
+const siteUrl = "https://pesakit.landelatech.com";
 
 export default defineConfig({
   site: siteUrl,
   integrations: [
     starlight({
-      title: "M-Pesa Node",
-      description: "Typed Node.js SDK and field guide for Safaricom M-Pesa Daraja APIs.",
-      tagline: "Typed Daraja workflows for Node.js teams shipping real money movement.",
+      title: "PesaKit",
+      description:
+        "PesaKit is the Node.js toolkit and field guide for Safaricom M-Pesa Daraja APIs.",
+      tagline:
+        "Build and operate M-Pesa flows from Node.js with less plumbing and more confidence.",
       logo: {
-        src: "./src/assets/mpesa-node-mark.svg",
-        alt: "M-Pesa Node",
+        src: "./src/assets/pesakit-mark.svg",
+        alt: "PesaKit",
       },
       social: [
         {

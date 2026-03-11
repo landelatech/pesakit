@@ -1,4 +1,4 @@
-# Contributing to @landelatech/mpesa-node
+# Contributing to PesaKit
 
 Thanks for contributing. This repository is an open source Node.js SDK for Safaricom M-Pesa Daraja APIs, so changes should optimize for correctness, clarity, and maintainability over clever abstractions.
 

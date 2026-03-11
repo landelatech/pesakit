@@ -2,7 +2,7 @@
 title: Troubleshooting
 description: Common integration failures and the fastest places to look first.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 ## OAuth fails
@@ -16,6 +16,7 @@ sidebar:
 - Check whether your callback URLs are reachable from the public internet.
 - Confirm you are persisting and inspecting async result callbacks, not only the synchronous submission response.
 - Verify your timeout routes are implemented as well as the result routes.
+- Review the [result and status reference](/reference/result-codes/) and [callback reliability and reconciliation](/operations/callback-reliability/) guide.
 
 ## C2B simulation fails
 

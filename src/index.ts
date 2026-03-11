@@ -1,12 +1,12 @@
 /**
- * @landelatech/mpesa-node
+ * @landelatech/pesakit
  *
  * Production-ready Node.js SDK for Safaricom M-Pesa Daraja APIs.
  * Fluent API, automatic OAuth, zero boilerplate.
  *
  * @example
  * ```ts
- * import { Mpesa } from "@landelatech/mpesa-node";
+ * import { Mpesa } from "@landelatech/pesakit";
  *
  * const mpesa = new Mpesa({
  *   consumerKey: process.env.MPESA_CONSUMER_KEY!,
@@ -88,6 +88,12 @@ export type {
   ResponseType,
 } from "./modules/c2b/types";
 export type { B2CCommandId, B2CModule, B2CSendInput, B2CSendResponse } from "./modules/b2c/types";
+export type {
+  QrGenerateInput,
+  QrGenerateResponse,
+  QrModule,
+  QrTransactionCode,
+} from "./modules/qr/types";
 export type {
   AccountBalanceInput,
   AccountBalanceResponse,

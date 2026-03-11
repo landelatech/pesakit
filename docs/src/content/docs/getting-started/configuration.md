@@ -44,6 +44,25 @@ const mpesa = new Mpesa({
 - C2B register URLs and sandbox simulation need `shortCode`.
 - B2C, account balance, transaction status, and reversal need `shortCode`, `initiatorName`, and `securityCredential`.
 
+## How to generate `securityCredential`
+
+Daraja uses `securityCredential` for B2C, account balance, transaction status, and reversal flows. It is not your plain initiator password.
+
+Generate it this way:
+
+1. Start with the initiator password bytes.
+2. Encrypt them with the M-Pesa public key certificate for the matching environment.
+3. Use RSA with PKCS #1 v1.5 padding, not OAEP.
+4. Base64-encode the encrypted bytes.
+
+The final base64 string is the `securityCredential` value you place in `MPESA_SECURITY_CREDENTIAL`.
+
+## Certificate note
+
+- Use the sandbox public key certificate for sandbox credentials.
+- Use the production public key certificate for production credentials.
+- The certificate is only for generating `securityCredential` for these API flows. It is not the same thing as portal login access.
+
 ## Security notes
 
 - Do not commit real Daraja credentials.

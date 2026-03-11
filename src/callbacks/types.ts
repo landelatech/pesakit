@@ -65,7 +65,7 @@ export interface C2BValidationPayload {
 
 /** C2B validation response – return this JSON to accept or reject. */
 export interface C2BValidationResponse {
-  ResultCode: number;
+  ResultCode: number | string;
   ResultDesc: string;
 }
 

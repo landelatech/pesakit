@@ -2,7 +2,7 @@
 title: Account Balance
 description: Request the current balance for a shortcode and receive the final result asynchronously.
 sidebar:
-  order: 4
+  order: 6
 ---
 
 ## Request a balance

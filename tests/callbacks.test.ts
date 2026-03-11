@@ -5,6 +5,7 @@ import {
   parseC2BConfirmation,
   parseDarajaResult,
   getResultParametersMap,
+  c2bValidationResponse,
   C2B_VALIDATION_ACCEPT,
   C2B_VALIDATION_REJECT,
   MpesaCallbackError,
@@ -88,8 +89,18 @@ describe("parseC2BConfirmation", () => {
 
 describe("C2B validation response", () => {
   it("C2B_VALIDATION_ACCEPT and REJECT have correct shape", () => {
-    expect(C2B_VALIDATION_ACCEPT).toEqual({ ResultCode: 0, ResultDesc: "Accept" });
-    expect(C2B_VALIDATION_REJECT).toEqual({ ResultCode: 1, ResultDesc: "Reject" });
+    expect(C2B_VALIDATION_ACCEPT).toEqual({ ResultCode: 0, ResultDesc: "Accepted" });
+    expect(C2B_VALIDATION_REJECT).toEqual({
+      ResultCode: "C2B00016",
+      ResultDesc: "Rejected",
+    });
+  });
+
+  it("allows Daraja-style string rejection codes", () => {
+    expect(c2bValidationResponse("C2B00011", "Rejected")).toEqual({
+      ResultCode: "C2B00011",
+      ResultDesc: "Rejected",
+    });
   });
 });
 

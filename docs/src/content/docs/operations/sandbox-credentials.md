@@ -17,6 +17,21 @@ Safaricom’s primary entry points are the [API catalog](https://developer.safar
 4. Create an initiator user and encrypted `securityCredential` if you plan to test B2C, balance, status, or reversal.
 5. Put those values in a local `.env` file that is excluded from git.
 
+## What Daraja means by shortcode
+
+- A shortcode is the business number used to receive or send funds through the enabled product on your profile.
+- A paybill is typically used to collect money from customers repeatedly.
+- Buy goods is commonly used for retail purchases.
+- A till number is the buy-goods store identifier attached to that retail collection flow.
+
+For this SDK, what matters is not only the number itself, but also which Daraja products Safaricom has enabled on that shortcode.
+
+## Before testing B2C-style APIs
+
+- Make sure you have an initiator user in the portal.
+- Generate `securityCredential` with the sandbox public key certificate, not the production one.
+- Keep the unencrypted initiator password out of source control and shared logs.
+
 ## Map values to the SDK
 
 - `consumerKey` -> `MPESA_CONSUMER_KEY`

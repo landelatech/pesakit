@@ -165,16 +165,16 @@ export function parseC2BValidation(body: unknown): C2BValidationPayload {
  * Return this JSON from your Validation URL handler.
  */
 export function c2bValidationResponse(
-  resultCode: number,
+  resultCode: number | string,
   resultDesc: string
 ): C2BValidationResponse {
   return { ResultCode: resultCode, ResultDesc: resultDesc };
 }
 
 /** Accept C2B validation (transaction will complete). */
-export const C2B_VALIDATION_ACCEPT = c2bValidationResponse(0, "Accept");
-/** Reject C2B validation (transaction will be cancelled). */
-export const C2B_VALIDATION_REJECT = c2bValidationResponse(1, "Reject");
+export const C2B_VALIDATION_ACCEPT = c2bValidationResponse(0, "Accepted");
+/** Reject C2B validation with Daraja's generic C2B error code. */
+export const C2B_VALIDATION_REJECT = c2bValidationResponse("C2B00016", "Rejected");
 
 /**
  * Parse raw B2C / Account Balance / Transaction Status result callback body.

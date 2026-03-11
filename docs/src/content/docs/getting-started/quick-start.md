@@ -14,13 +14,13 @@ sidebar:
 ## Install
 
 ```bash
-yarn add @landelatech/mpesa-node
+yarn add @landelatech/pesakit
 ```
 
 ## First request
 
 ```ts
-import { Mpesa } from "@landelatech/mpesa-node";
+import { Mpesa } from "@landelatech/pesakit";
 
 const mpesa = new Mpesa({
   consumerKey: process.env.MPESA_CONSUMER_KEY,
@@ -41,8 +41,16 @@ const response = await mpesa.stkPush({
 console.log(response.CheckoutRequestID);
 ```
 
+## What happens after this request
+
+- A successful HTTP response means Daraja accepted the request for processing.
+- The customer still needs to approve the prompt on their phone.
+- Final success or failure arrives later through your `callbackUrl`.
+- If that callback is delayed, you can recover the status with `mpesa.stkQuery()`.
+
 ## Next steps
 
 1. Move your credentials into [environment variables](/getting-started/configuration/).
-2. Add a [callback endpoint](/guides/callbacks/) before using asynchronous APIs in a real flow.
-3. Use the flow-specific guides for STK Push, C2B, B2C, account balance, transaction status, or reversal.
+2. Read the [end-to-end STK payment flow](/guides/end-to-end-stk/) to see the full request, callback, and recovery path.
+3. Add a [callback endpoint](/guides/callbacks/) before using asynchronous APIs in a real flow.
+4. Use the flow-specific guides for STK Push, Dynamic QR, C2B, B2C, account balance, transaction status, or reversal.
