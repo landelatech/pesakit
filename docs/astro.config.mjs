@@ -69,13 +69,7 @@ export default defineConfig({
         baseUrl: `${repositoryUrl}/edit/main/docs/`,
       },
       head: googleAnalyticsHead,
-      customCss: [
-        "./src/styles/custom.css",
-        "astro-feelback/styles/feelback.css",
-      ],
-      components: {
-        Footer: "./src/components/Footer.astro",
-      },
+      customCss: ["./src/styles/custom.css"],
       lastUpdated: true,
       credits: false,
       disable404Route: true,

@@ -618,11 +618,6 @@
   dependencies:
     "@expressive-code/core" "^0.41.7"
 
-"@feelback/js@0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@feelback/js/-/js-0.3.4.tgz#1f3c885817b2d46230e922ac84c0b79a76d1a1c4"
-  integrity sha512-xr7gTqSJcVUYQlELs1TntYovCBjMcYUr/hGKTnDoF64/lig5CbX4bOmqLoF50IImCy5q3oIwg9w+TSFvtBwsIA==
-
 "@gerrit0/mini-shiki@^3.17.0":
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/@gerrit0/mini-shiki/-/mini-shiki-3.23.0.tgz#d9414f3080b88303b18f3a311846e37e424d800c"
@@ -1592,13 +1587,6 @@ astro-expressive-code@^0.41.1:
   integrity sha512-hUpogGc6DdAd+I7pPXsctyYPRBJDK7Q7d06s4cyP0Vz3OcbziP3FNzN0jZci1BpCvLn9675DvS7B9ctKKX64JQ==
   dependencies:
     rehype-expressive-code "^0.41.7"
-
-astro-feelback@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/astro-feelback/-/astro-feelback-0.3.4.tgz#0d2f31d67d51f5eca2952ee9f35bf2b9f429ec37"
-  integrity sha512-ra69QTsdyjzQKdYeu+qngNcPOgspaWOFJLDFdpA/JryGo55uruw76455UVt2rf3NsZulBnYHS6+upPIO5O7t7A==
-  dependencies:
-    "@feelback/js" "0.3.4"
 
 astro@^5.5.0:
   version "5.18.0"

@@ -31,7 +31,6 @@ yarn ci:check
 ## Optional docs environment variables
 
 - `PUBLIC_GA_MEASUREMENT_ID` enables Google Analytics in the Starlight site build.
-- `PUBLIC_FEELBACK_CONTENT_SET_ID` enables page-level feedback widgets in the docs footer.
 
 ## More detail
 
