@@ -1,6 +1,6 @@
 {
   "name": "@landelatech/mpesa-node",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Production-ready Node.js SDK for Safaricom M-Pesa Daraja APIs — fluent API, automatic OAuth, zero boilerplate.",
   "type": "module",
   "packageManager": "yarn@1.22.22",
