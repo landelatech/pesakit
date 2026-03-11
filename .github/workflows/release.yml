@@ -39,7 +39,7 @@ jobs:
           npm pack --json --pack-destination release-artifacts > release-artifacts/pack.json
 
       - name: Verify publish tarball
-        run: npm publish --dry-run --access public release-artifacts/*.tgz
+        run: npm publish --dry-run --access public ./release-artifacts/*.tgz
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v7
@@ -69,10 +69,10 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Publish to npm
-        run: npm publish --access public release-artifacts/*.tgz
+        run: npm publish --access public ./release-artifacts/*.tgz
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: release-artifacts/*.tgz
+          files: ./release-artifacts/*.tgz
