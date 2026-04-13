@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+  sdk-quality:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,18 +31,39 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: yarn
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Install dependencies
+        if: matrix.node-version != 20
+        run: yarn install --frozen-lockfile
+
+      - name: Install dependencies for Node 20 SDK checks
+        if: matrix.node-version == 20
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Run SDK quality checks
+        run: yarn ci:check:sdk
+
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Run repository checks
-        run: yarn ci:check
+      - name: Run docs quality checks
+        run: yarn ci:check:docs
 
   coverage:
     runs-on: ubuntu-latest
-    needs: quality
+    needs: sdk-quality
 
     steps:
       - name: Checkout
@@ -53,9 +74,6 @@ jobs:
         with:
           node-version: 22
           cache: yarn
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile

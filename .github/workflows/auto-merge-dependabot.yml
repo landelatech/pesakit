@@ -1,34 +1,34 @@
 name: Dependabot Auto-approve & Auto-merge
 
 on:
-    pull_request_target:
-        types: [opened, synchronize]
+  pull_request_target:
+    types: [opened, synchronize]
 
 permissions:
-    contents: write
-    pull-requests: write
+  contents: write
+  pull-requests: write
 
 jobs:
-    auto-approve-and-merge:
-        runs-on: ubuntu-latest
-        if: github.actor == 'dependabot[bot]'
-        steps:
-            - name: Fetch Dependabot metadata
-              id: metadata
-              uses: dependabot/fetch-metadata@v3
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
+  auto-approve-and-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Approve patch/minor updates
-              if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PR_URL: ${{ github.event.pull_request.html_url }}
-              run: gh pr review --approve "$PR_URL"
+      - name: Approve patch/minor updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr review --approve "$PR_URL"
 
-            - name: Enable auto-merge (squash)
-              if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  PR_URL: ${{ github.event.pull_request.html_url }}
-              run: gh pr merge --auto --squash "$PR_URL"
+      - name: Enable auto-merge (squash)
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"

@@ -4,6 +4,8 @@
 
 `@landelatech/pesakit` is the Node.js toolkit for shipping Safaricom M-Pesa integrations from a backend without hand-rolling OAuth, request signing, callback parsing, or flow-specific payload glue.
 
+PesaKit is built and maintained by [Landela Tech](https://landelatech.com/), the team behind production payment integrations across local and international providers.
+
 PesaKit gives you one `Mpesa` client for the implemented Daraja flows, with built-in OAuth, typed requests and responses, validation at the API boundary, and practical helpers for async callback handling.
 
 ## Why use this SDK
@@ -83,7 +85,7 @@ The docs cover setup, configuration, STK, Dynamic QR, C2B, Pull Transactions, B2
 
 ## About Landela Tech
 
-Landela Tech builds payment integrations for businesses across local and international providers, with a focus on practical, production-ready infrastructure.
+Landela Tech builds practical, production-ready payment infrastructure for businesses working across local and international providers.
 
 - Website: [landelatech.com](https://landelatech.com/)
 

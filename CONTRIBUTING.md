@@ -4,7 +4,8 @@ Thanks for contributing. This repository is an open source Node.js SDK for Safar
 
 ## Before you start
 
-- Runtime floor: Node.js `20+`
+- SDK runtime floor: Node.js `20+`
+- Repo docs tooling: Node.js `24` recommended because the Astro docs stack requires a newer Node than the published SDK runtime
 - Package manager: Yarn classic (`yarn`)
 - Package format: ESM
 - Quality bar: every public behavior change needs tests and docs
@@ -30,6 +31,7 @@ yarn install
 | `yarn docs:build`       | Builds the docs site                                          |
 | `yarn typecheck:public` | Checks the generated public declarations                      |
 | `yarn ci:check`         | Runs the SDK quality gate used across the Node support matrix |
+| `yarn ci:check:docs`    | Runs the docs validation and build gate on the docs Node line |
 
 ## What a good pull request includes
 

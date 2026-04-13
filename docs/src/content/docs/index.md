@@ -4,7 +4,7 @@ description: PesaKit is the Node.js SDK and implementation guide for Safaricom M
 template: splash
 hero:
   title: PesaKit for M-Pesa on Node.js
-  tagline: The practical toolkit for STK Push, Dynamic QR, C2B, B2C, pull-based reconciliation, status checks, reversals, and callback-heavy Daraja integrations.
+  tagline: Built by Landela Tech for practical STK Push, Dynamic QR, C2B, B2C, pull-based reconciliation, status checks, reversals, and callback-heavy Daraja integrations.
   actions:
     - text: Quick start
       link: /getting-started/quick-start/
@@ -18,6 +18,8 @@ hero:
 sidebar:
   hidden: true
 ---
+
+PesaKit is built and maintained by [Landela Tech](https://landelatech.com/), a payments-focused engineering team shipping production integrations across local and international providers.
 
 ## Why teams use this SDK
 
@@ -73,6 +75,6 @@ This SDK focuses on the commonly used Daraja payment and operational APIs. The c
 
 ## About Landela Tech
 
-Landela Tech specializes in payment integrations across local and international providers, building practical infrastructure for teams shipping real-world payment flows.
+Landela Tech specializes in production payment integrations, helping teams ship real-world flows across local and international providers without reinventing the operational plumbing.
 
 Learn more at [landelatech.com](https://landelatech.com/).
