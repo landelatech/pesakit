@@ -8,7 +8,7 @@ import starlightLinksValidator from "starlight-links-validator";
 import { createStarlightTypeDocPlugin } from "starlight-typedoc";
 
 const repositoryUrl = "https://github.com/landelatech/pesakit";
-const siteUrl = "https://pesakit.landelatech.com";
+const siteUrl = "https://pesakit-docs.landelatech.com";
 const googleAnalyticsId = process.env.PUBLIC_GA_MEASUREMENT_ID;
 const [starlightTypeDoc, apiSidebarGroup] = createStarlightTypeDocPlugin();
 

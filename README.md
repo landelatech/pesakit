@@ -75,8 +75,8 @@ It does not try to wrap every Daraja product. APIs that usually require special 
 
 ## Documentation
 
-- Docs site: [pesakit.landelatech.com](https://pesakit.landelatech.com)
-- Hosted docs: deploy `docs/dist` to Netlify and set `SITE_URL=https://pesakit.landelatech.com`
+- Docs site: [pesakit-docs.landelatech.com](https://pesakit-docs.landelatech.com)
+- Hosted docs: deploy `docs/dist` to Netlify and set `SITE_URL=https://pesakit-docs.landelatech.com`
 - Local docs dev server: `yarn docs:dev`
 
 The docs cover setup, configuration, STK, Dynamic QR, C2B, Pull Transactions, B2C, callbacks, sandbox credentials, go-live preparation, troubleshooting, error handling, and the current API coverage matrix.
