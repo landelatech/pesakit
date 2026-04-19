@@ -108,11 +108,11 @@
     vfile "^6.0.3"
 
 "@astrojs/partytown@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@astrojs/partytown/-/partytown-2.1.6.tgz#579db871ff020db44fa1521969c909f2941f7434"
-  integrity sha512-pS95OSnPkSmuOHzwLXCea8p4P8bqmA2fm3BUBW6/egzSTaWYte/Gp1jiAoPmCZ6FV7jGx4GHduO2CUltUXc3Og==
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@astrojs/partytown/-/partytown-2.1.7.tgz#e1cee8e4f3b6b50447f619f946f57f0a7bf1725e"
+  integrity sha512-dbffmNmJ+sAJ0/aXSaLX4aI04EZS/2C6Mm/+fmd4ikqWO7hV6nIi0sug8Z3c+yqedJNi1swFvpwluWmGjLHNzw==
   dependencies:
-    "@qwik.dev/partytown" "^0.11.2"
+    "@qwik.dev/partytown" "^0.13.2"
     mrmime "^2.0.1"
 
 "@astrojs/prism@4.0.1":
@@ -887,10 +887,10 @@
   resolved "https://registry.yarnpkg.com/@pagefind/windows-x64/-/windows-x64-1.5.2.tgz#931fdbc9f00f72057950cd260ef965d4fd02a92e"
   integrity sha512-Fa2Iyw7kaDRzGMfNYNUXNW2zbL5FQVDgSOcbDHdzBrDEdpqOqg8TcZ68F22ol6NJ9IGzvUdmeyZypLW5dyhqsg==
 
-"@qwik.dev/partytown@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@qwik.dev/partytown/-/partytown-0.11.2.tgz#2f8c715912c3522b1d2e1bbf75801196ab198422"
-  integrity sha512-795y49CqBiKiwKAD+QBZlzlqEK275hVcazZ7wBPSfgC23L+vWuA7PJmMpgxojOucZHzYi5rAAQ+IP1I3BKVZxw==
+"@qwik.dev/partytown@^0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@qwik.dev/partytown/-/partytown-0.13.2.tgz#d1a554028b4bfc869d3f548474ae35cd71aec8d4"
+  integrity sha512-Umls4bSkuzqLVcGvf8OgwIn/OldproSAbaQ/iYGe8VPYBpl2CaOSxabWwkeC72LDFqxVL0b0q8XlI8MuChDyzg==
   dependencies:
     dotenv "^16.4.7"
 
