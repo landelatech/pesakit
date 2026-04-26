@@ -166,9 +166,9 @@
     zod "^4.3.6"
 
 "@astrojs/starlight@^0.38.3":
-  version "0.38.3"
-  resolved "https://registry.yarnpkg.com/@astrojs/starlight/-/starlight-0.38.3.tgz#9e18d20eb367fdf988792a17b8160b63b08603d1"
-  integrity sha512-kDlJPlUDdQFWYmyFM2yUPo66yws7v067AEK+/rQjjoVyqehL3DabuOJuy6UJFFTFyGbHxYcBms/ITEgdW7tphw==
+  version "0.38.4"
+  resolved "https://registry.yarnpkg.com/@astrojs/starlight/-/starlight-0.38.4.tgz#b9569c0e923c3f26961d37b885dbdf799e12e9a3"
+  integrity sha512-TGFIr2aVC+gcZCPQzJOO4ZnA/yL3jRnsUDcKlVdEhxhxaOQnWr9lZ9MRScg9zU6uh3HVeZAmmjkLCdTlHdcaZA==
   dependencies:
     "@astrojs/markdown-remark" "^7.0.0"
     "@astrojs/mdx" "^5.0.0"
